@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 
 /**
  * Created by pzawa on 21.02.2017.
@@ -17,7 +21,7 @@ public class DeptReport {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public static void main(String[] args){
-        Department department = getDepartmentFromMock(10);
+        Department department = getDepartmentFromDB(10);
         System.out.println(department.getDeptno() + ":" + department.getDname() + ":" + department.getLocation());
         for(Employee employee: department.getEmployees()){
             System.out.println("             " + employee.getEmpno()+":" + employee.getEmpno() + ":" + employee.getHiredate() + ":" + employee.getSalary());
@@ -40,7 +44,13 @@ public class DeptReport {
     }
 
     private static Department getDepartmentFromDB(int deptId){
-        //TODO
-        return null;
+    	SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+    	Session session = sessionFactory.openSession();
+    	
+    	Department department= session.get(Department.class, deptId);
+    	
+    	session.close();
+    	sessionFactory.close();
+    	return department;
     }
 }

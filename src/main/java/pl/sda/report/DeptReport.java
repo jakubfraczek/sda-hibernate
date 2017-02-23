@@ -44,13 +44,12 @@ public class DeptReport {
     }
 
     private static Department getDepartmentFromDB(int deptId){
-    	SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+    	try(SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory()){
     	Session session = sessionFactory.openSession();
     	
     	Department department= session.get(Department.class, deptId);
     	
     	session.close();
-    	sessionFactory.close();
-    	return department;
+    	return department;}
     }
 }

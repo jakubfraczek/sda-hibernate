@@ -8,8 +8,14 @@ import java.util.Objects;
 /**
  * Created by pzawa on 02.02.2017.
  */
+
 @Entity
 @Table(name = "emp")
+@NamedNativeQuery(
+		name = "calculateSalaryByDept2",
+		query = "select 1",
+		resultClass = BigDecimal.class
+)
 public class Employee {
 
 	@Id

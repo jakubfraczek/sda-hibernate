@@ -96,7 +96,8 @@ public class DeptDAOImpl implements DeptDAO {
         try(Session session = sessionFactory.openSession()) {
             Criteria cr = session.createCriteria(Department.class);
             cr.add(Restrictions.eq("dname", dname));
-            List departments = cr.list();
+            cr.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+            List<Department> departments = cr.list();
             return departments;
         }
 
@@ -107,7 +108,7 @@ public class DeptDAOImpl implements DeptDAO {
         try(Session session = sessionFactory.openSession()) {
             Query query = session.createQuery("from Department where location = :location");
             query.setParameter("location", location);
-            List departments = query.list();
+            List<Department> departments = query.list();
             return  departments;
         }
     }
